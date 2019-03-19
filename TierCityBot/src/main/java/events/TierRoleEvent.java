@@ -18,9 +18,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
- * This class will only be used if {@link Application.App#mode} is
- * set to true. It will handle the TierRoleEvent that will occur when a message
- * is sent on the guild(server).
+ * This class will only be used if {@link Application.App#mode} is set to true.
+ * It will handle the TierRoleEvent that will occur when a message is sent on
+ * the guild(server).
  * 
  * @author Leo
  */
@@ -29,7 +29,7 @@ public class TierRoleEvent extends ListenerAdapter {
   // TODO Insert IDs from Discord!
   public static final String[] TIER_ID = { //
       /* Tier 1-ID */ "", //
-      /* Tier 2-ID */ "", // Prevent Autoformatting
+      /* Tier 2-ID */ "", //
       /* Tier 3-ID */ "", //
       /* Tier 4-ID */ "" //
   }; //
@@ -85,7 +85,8 @@ public class TierRoleEvent extends ListenerAdapter {
    */
   private static String buildRegexTiers() {
     String regexTiersString = "";
-    regexTiersString += "\\s*tier\\s*" + "[1-" + NUMBER_OF_TIERS + "]{1}\\s*"; // Example for 4 Tiers: "\\s*tier\\s*[1-4]{1}\\s*"
+    regexTiersString += "\\s*tier\\s*" + "[1-" + NUMBER_OF_TIERS + "]{1}\\s*"; // Example for 4 Tiers:
+                                                                               // "\\s*tier\\s*[1-4]{1}\\s*"
     return regexTiersString;
   }
 }

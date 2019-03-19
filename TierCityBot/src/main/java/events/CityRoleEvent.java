@@ -18,9 +18,9 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
- * This class will only be used if {@link Application.App#mode} is
- * set to false. It will handle the CityRoleEvent that will occur when a message
- * is sent on the guild(server).
+ * This class will only be used if {@link Application.App#mode} is set to false.
+ * It will handle the CityRoleEvent that will occur when a message is sent on
+ * the guild(server).
  * 
  * @author Leo
  */
