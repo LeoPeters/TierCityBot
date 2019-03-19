@@ -49,7 +49,7 @@ public class TierRoleEvent extends ListenerAdapter {
    * that wrote the message, to the requested Tier. This will only work if the
    * message fits the regular expression built in {@link #buildRegexTiers()}
    * 
-   * @param GuildMessageReceivedEvent
+   * @param GuildMessageReceivedEven
    */
   public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
@@ -85,7 +85,7 @@ public class TierRoleEvent extends ListenerAdapter {
    */
   private static String buildRegexTiers() {
     String regexTiersString = "";
-    regexTiersString += "\"?tier\\s?" + "[1-" + NUMBER_OF_TIERS + "]{1}\"?"; // Example for 4 Tiers: "tier\\s?[1-4]{1}"
+    regexTiersString += "\\s*tier\\s*" + "[1-" + NUMBER_OF_TIERS + "]{1}\\s*"; // Example for 4 Tiers: "\\s*tier\\s*[1-4]{1}\\s*"
     return regexTiersString;
   }
 }
