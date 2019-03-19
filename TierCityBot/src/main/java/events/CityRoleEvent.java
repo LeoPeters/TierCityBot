@@ -27,12 +27,12 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class CityRoleEvent extends ListenerAdapter {
 
   // TODO Insert IDs from Discord!
-  public static final String[] CITY_ID = {    //
-      /* Hamburg-ID */ "",                    //
-      /* Berlin-ID */ "",                     // Prevent Autoformatting
-      /* Muenchen-ID */ "",                   //
-      /* Frankfurt-ID */ ""                   //
-  };                                          //
+  public static final String[] CITY_ID = { //
+      /* Hamburg-ID */ "", //
+      /* Berlin-ID */ "", // Prevent Autoformatting
+      /* Muenchen-ID */ "", //
+      /* Frankfurt-ID */ "" //
+  }; //
   public static final String STADT_CHANNEL_ID = "";
 
   public static final int NUMBER_OF_CITIES = CITIES.values().length;
@@ -66,7 +66,7 @@ public class CityRoleEvent extends ListenerAdapter {
         for (int i = 0; i < NUMBER_OF_CITIES; i++) {
           if (content.equals(cities[i].toString().toLowerCase())) {
             guild.getController().addRolesToMember(member, jda.getRoleById(CITY_ID[i])).queue();
-            
+
             // Delete message
             event.getMessage().delete().queue();
             break;
@@ -76,6 +76,14 @@ public class CityRoleEvent extends ListenerAdapter {
     }
   }
 
+  /**
+   * This method will create Cityobjects for all Cities referenced in the
+   * CITIES-enum. Please make sure, that the corresponding ID is added to the
+   * {@link #CITY_ID} array. For more information read the Javadoc of the
+   * CITIES-enum.
+   * 
+   * @return
+   */
   private static City[] buildCityArray() {
     City[] cities = new City[NUMBER_OF_CITIES];
     for (int i = 0; i < NUMBER_OF_CITIES; i++) {
@@ -86,7 +94,7 @@ public class CityRoleEvent extends ListenerAdapter {
 
   /**
    * Building the regular expression from the "CITIES"-enum which is used by the
-   * event
+   * Eventhandler.
    */
   private static String buildRegexCities() {
     String regexCitiesString = "";
