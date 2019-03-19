@@ -51,7 +51,10 @@ public class CityRoleEvent extends ListenerAdapter {
    */
   public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
+    // Don't move the Textchannel assignement outside of the method! (Race
+    // condition)
     TextChannel cityChannel = jda.getTextChannelById(STADT_CHANNEL_ID);
+
     boolean validToken = false;
     TextChannel channel = event.getChannel();
     Member member = event.getMember();

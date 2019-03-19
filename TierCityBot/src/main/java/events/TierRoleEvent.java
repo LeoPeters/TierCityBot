@@ -27,14 +27,17 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class TierRoleEvent extends ListenerAdapter {
 
   // TODO Insert IDs from Discord!
-  public static final String TIER1_ROLE_ID = "";
-  public static final String TIER2_ROLE_ID = "";
-  public static final String TIER3_ROLE_ID = "";
-  public static final String TIER4_ROLE_ID = "";
+  public static final String[] TIER_ID = { //
+      /* Tier 1-ID */ "", //
+      /* Tier 2-ID */ "", // Prevent Autoformatting
+      /* Tier 3-ID */ "", //
+      /* Tier 4-ID */ "" //
+  }; //
   public static final String TIERROLLE_CHANNEL_ID = "";
 
-  // If you want to change the number of Tiers, be sure to add the corresponding
-  // case in the onGuildMessageReceived(GuildMessageReceivedEvent event) method!!
+  // If you want to change the number of Tiers, be sure to add/delete the
+  // corresponding
+  // IDs in the TIER_ID array above!!
   public static final int NUMBER_OF_TIERS = 4;
   public static final String REGEX_TIER = buildRegexTiers();
 
@@ -50,7 +53,8 @@ public class TierRoleEvent extends ListenerAdapter {
    */
   public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
 
-    // Declare Role variables - don't move outside of method! (Race condition)
+    // Don't move the Textchannel assignement outside of the method! (Race
+    // condition)
     TextChannel tierRoleChannel = jda.getTextChannelById(TIERROLLE_CHANNEL_ID);
 
     boolean validToken = false;
@@ -64,26 +68,9 @@ public class TierRoleEvent extends ListenerAdapter {
       validToken = Pattern.matches(REGEX_TIER, content.trim().toLowerCase());
       if (validToken) {
         int tierValue = Integer.parseInt(content.replaceAll("[\\D]", ""));
+        guild.getController().addRolesToMember(member, jda.getRoleById(TIER_ID[tierValue - 1])).queue();
 
-        // Adding the TierRole to the member
-        switch (tierValue) {
-        case 1:
-          guild.getController().addRolesToMember(member, jda.getRoleById(TIER1_ROLE_ID)).queue();
-          break;
-        case 2:
-          guild.getController().addRolesToMember(member, jda.getRoleById(TIER2_ROLE_ID)).queue();
-          break;
-        case 3:
-          guild.getController().addRolesToMember(member, jda.getRoleById(TIER3_ROLE_ID)).queue();
-          break;
-        case 4:
-          guild.getController().addRolesToMember(member, jda.getRoleById(TIER4_ROLE_ID)).queue();
-          break;
-        default:
-          break;
-        }
-
-        // Reset Tier
+        // Reset TierValue
         tierValue = 0;
 
         // Delete message
@@ -93,8 +80,8 @@ public class TierRoleEvent extends ListenerAdapter {
   }
 
   /**
-   * Building the regular expression with the NUMBER_OF_TIERS which is used to
-   * confirm the correctness of the message
+   * Building the regular expression with the NUMBER_OF_TIERS. It is used to
+   * validate the correctness of the message
    */
   private static String buildRegexTiers() {
     String regexTiersString = "";
