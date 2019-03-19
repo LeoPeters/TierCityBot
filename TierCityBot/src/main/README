@@ -1,8 +1,8 @@
 README v1.00 - TierCityBot
 
-To use this Bot you have to get the IDs from your Discordserver and paste them into the associated variables.
+To use this Bot you have to get the IDs from your Discordserver and paste them into the associated Arrays.
 There are two modes for this Bot, one is the Tier-Bot and the other one is the City-Bot. 
 To change between the modes you have to change the value of the "mode" variable in the "App"-Class.
-This Bot is not yet fully tested.
+Note that this Bot is not yet fully tested.
 
 Author: Leo / Legiamento
