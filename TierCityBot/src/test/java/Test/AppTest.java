@@ -1,4 +1,4 @@
-package me.Legiamento.CityTierBot;
+package Test;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

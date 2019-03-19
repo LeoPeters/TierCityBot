@@ -5,7 +5,7 @@
  * @author Leo
  */
 
-package me.Legiamento.CityTierBot;
+package Application;
 
 import javax.security.auth.login.LoginException;
 

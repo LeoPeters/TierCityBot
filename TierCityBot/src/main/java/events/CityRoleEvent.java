@@ -9,7 +9,7 @@ package events;
 
 import java.util.regex.Pattern;
 
-import me.Legiamento.CityTierBot.App;
+import Application.App;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -18,7 +18,7 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 /**
- * This class will only be used if {@link me.Legiamento.CityTierBot.App#mode} is
+ * This class will only be used if {@link Application.App#mode} is
  * set to false. It will handle the CityRoleEvent that will occur when a message
  * is sent on the guild(server).
  * 
