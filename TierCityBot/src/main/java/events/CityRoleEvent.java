@@ -27,13 +27,18 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class CityRoleEvent extends ListenerAdapter {
 
   // TODO Insert IDs from Discord!
+  public static final String[] CITY_ID = {    //
+      /* Hamburg-ID */ "",                    //
+      /* Berlin-ID */ "",                     // Prevent Autoformatting
+      /* Muenchen-ID */ "",                   //
+      /* Frankfurt-ID */ ""                   //
+  };                                          //
   public static final String STADT_CHANNEL_ID = "";
-  public static final String HAMBURG_CITY_ID = "";
-  public static final String BERLIN_CITY_ID = "";
-  public static final String MUENCHEN_CITY_ID = "";
-  public static final String FRANKFURT_CITY_ID = "";
 
+  public static final int NUMBER_OF_CITIES = CITIES.values().length;
+  private static City[] cities = buildCityArray();
   public static final String REGEX_CITY = buildRegexCities();
+
   private JDA jda = App.getJDA();
 
   /**
@@ -52,45 +57,31 @@ public class CityRoleEvent extends ListenerAdapter {
     Member member = event.getMember();
     String content = event.getMessage().getContentRaw();
     Guild guild = event.getGuild();
-    int caseNumber = 0;
 
     // Check regular expression and parse the index of the city
     if (channel.getId().equals(cityChannel.getId())) {
       content = content.trim().toLowerCase();
       validToken = Pattern.matches(REGEX_CITY, content);
       if (validToken) {
-        for (int i = 0; i < CITIES.values().length; i++) {
-          if (content.equals(CITIES.values()[i].toString().toLowerCase())) {
-            caseNumber = i;
+        for (int i = 0; i < NUMBER_OF_CITIES; i++) {
+          if (content.equals(cities[i].toString().toLowerCase())) {
+            guild.getController().addRolesToMember(member, jda.getRoleById(CITY_ID[i])).queue();
+            
+            // Delete message
+            event.getMessage().delete().queue();
             break;
           }
         }
-
-        // Switch case for the associated role. If you want to add more cities please
-        // read the Javadoc of the CITIES enum.
-        switch (caseNumber) {
-        case 0:
-          guild.getController().addRolesToMember(member, jda.getRoleById(HAMBURG_CITY_ID)).queue();
-          break;
-        case 1:
-          guild.getController().addRolesToMember(member, jda.getRoleById(BERLIN_CITY_ID)).queue();
-          break;
-        case 2:
-          guild.getController().addRolesToMember(member, jda.getRoleById(FRANKFURT_CITY_ID)).queue();
-          break;
-        case 3:
-          guild.getController().addRolesToMember(member, jda.getRoleById(MUENCHEN_CITY_ID)).queue();
-          break;
-        default:
-          break;
-        }
-        // Reset CaseNumber
-        caseNumber = 0;
-
-        // Delete message
-        event.getMessage().delete().queue();
       }
     }
+  }
+
+  private static City[] buildCityArray() {
+    City[] cities = new City[NUMBER_OF_CITIES];
+    for (int i = 0; i < NUMBER_OF_CITIES; i++) {
+      cities[i] = new City(CITIES.values()[i].toString(), CITY_ID[i]);
+    }
+    return cities;
   }
 
   /**
@@ -99,10 +90,9 @@ public class CityRoleEvent extends ListenerAdapter {
    */
   private static String buildRegexCities() {
     String regexCitiesString = "";
-    CITIES[] cities = CITIES.values();
-    for (int i = 0; i < cities.length; i++) {
+    for (int i = 0; i < NUMBER_OF_CITIES; i++) {
       regexCitiesString += "(" + cities[i].toString().toLowerCase() + ")";
-      if (i != cities.length - 1) {
+      if (i != NUMBER_OF_CITIES - 1) {
         regexCitiesString += "|";
       }
     }
