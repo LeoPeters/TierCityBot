@@ -27,9 +27,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class CityRoleEvent extends ListenerAdapter {
 
   // TODO Insert IDs from Discord!
-  public static final String STADT_CHANNEL_ID = "557313447969292392";
-  public static final String HAMBURG_CITY_ID = "557295853195231253";
-  public static final String BERLIN_CITY_ID = "557298972402778185";
+  public static final String STADT_CHANNEL_ID = "";
+  public static final String HAMBURG_CITY_ID = "";
+  public static final String BERLIN_CITY_ID = "";
   public static final String MUENCHEN_CITY_ID = "";
   public static final String FRANKFURT_CITY_ID = "";
 
