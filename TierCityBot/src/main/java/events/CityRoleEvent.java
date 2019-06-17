@@ -7,15 +7,23 @@
 
 package events;
 
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import Application.App;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Emote;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.MessageReaction.ReactionEmote;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.RestAction;
 
 /**
  * This class will only be used if {@link Application.App#mode} is set to false.
@@ -27,17 +35,15 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 public class CityRoleEvent extends ListenerAdapter {
 
   // TODO Insert IDs from Discord!
-  public static final String[] CITY_ID = { //
-      /* Hamburg-ID */ "", //
-      /* Berlin-ID */ "", // Prevent Autoformatting
-      /* Muenchen-ID */ "", //
-      /* Frankfurt-ID */ "" //
-  }; //
-  public static final String STADT_CHANNEL_ID = "";
 
-  public static final int NUMBER_OF_CITIES = CITIES.values().length;
-  private static City[] cities = buildCityArray();
-  public static final String REGEX_CITY = buildRegexCities();
+  public static String TEST = "557295853195231253";
+  public static String HAMBURG_ROLE_ID = "552068978126618624";
+  public static String BERLIN_ROLE_ID = "552069066265722888";
+  public static String MUENCHEN_ROLE_ID = "552069188051664896";
+  public static String FRANKFURT_ROLE_ID = "552069288803172352";
+
+  public static final String STADT_CHANNEL_ID = "552068601100763136";
+  public static final String TEST_CHANNEL = "585224223237079070";
 
   private JDA jda = App.getJDA();
 
@@ -49,64 +55,22 @@ public class CityRoleEvent extends ListenerAdapter {
    * 
    * @param GuildMessageReceivedEvent
    */
-  public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-
-    // Don't move the Textchannel assignement outside of the method! (Race
-    // condition)
-    TextChannel cityChannel = jda.getTextChannelById(STADT_CHANNEL_ID);
-
-    boolean validToken = false;
+  public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
+    TextChannel cityChannel = jda.getTextChannelById(TEST_CHANNEL);
     TextChannel channel = event.getChannel();
+
+    if (channel == cityChannel) {
     Member member = event.getMember();
-    String content = event.getMessage().getContentRaw();
+    MessageReaction reaction = event.getReaction();
     Guild guild = event.getGuild();
-
-    // Check regular expression and parse the index of the city
-    if (channel.getId().equals(cityChannel.getId())) {
-      content = content.trim().toLowerCase();
-      validToken = Pattern.matches(REGEX_CITY, content);
-      if (validToken) {
-        for (int i = 0; i < NUMBER_OF_CITIES; i++) {
-          if (content.equals(cities[i].toString().toLowerCase())) {
-            guild.getController().addRolesToMember(member, jda.getRoleById(CITY_ID[i])).queue();
-
-            // Delete message
-            event.getMessage().delete().queue();
-            break;
-          }
-        }
+    ReactionEmote reactionEmote = reaction.getReactionEmote();
+    ReactionEmote emote = ReactionEmote.fromCustom(jda.getEmoteById("585590923094917120"));
+    
+    System.out.println("richtiger Channel");
+      if (reactionEmote == emote) {
+        System.out.println("Emote ist korrekt");
+        guild.getController().addRolesToMember(member, jda.getRoleById(TEST)).queue();
       }
     }
-  }
-
-  /**
-   * This method will create Cityobjects for all Cities referenced in the
-   * CITIES-enum. Please make sure, that the corresponding ID is added to the
-   * {@link #CITY_ID} array. For more information read the Javadoc of the
-   * CITIES-enum.
-   * 
-   * @return
-   */
-  private static City[] buildCityArray() {
-    City[] cities = new City[NUMBER_OF_CITIES];
-    for (int i = 0; i < NUMBER_OF_CITIES; i++) {
-      cities[i] = new City(CITIES.values()[i].toString(), CITY_ID[i]);
-    }
-    return cities;
-  }
-
-  /**
-   * Building the regular expression from the "CITIES"-enum which is used by the
-   * Eventhandler.
-   */
-  private static String buildRegexCities() {
-    String regexCitiesString = "";
-    for (int i = 0; i < NUMBER_OF_CITIES; i++) {
-      regexCitiesString += "(" + cities[i].toString().toLowerCase() + ")";
-      if (i != NUMBER_OF_CITIES - 1) {
-        regexCitiesString += "|";
-      }
-    }
-    return regexCitiesString;
   }
 }
